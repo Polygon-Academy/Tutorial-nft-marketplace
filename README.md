@@ -2,29 +2,6 @@
 
 Build an NFT marketplace from 0. How to compile, deploy, and call smart contract
 
-- [0. Project Introduction](#chapter-8)
-
-- - [NFT Marketplace Introduction](#page-19)
-
-- [1. Environment Setup](#chapter-9)
-
-- - [Setup New Project using Starter Kit](#page-20)
-  - [Create Ganache Workspace、Setup turffle](#page-21)
-
-- [2. Code your Smart Contracts](#chapter-10)
-
-- - [NFT.sol](#page-22)
-  - [NFTMarket.sol](#page-23)
-
-- [3. Compile & Deploy Contract](#chapter-11)
-
-- - [Scripts for Compiling Smart Contract](#page-25)
-  - [Compile and Deploy Using truffle](#page-26)
-
-- [4. Calling Smart Contract from Frontend (ABI)](#chapter-12)
-
-- - [Call Contract ABI](#page-27)
-
 # 0. Project Introduction
 
 NFT Marketplace Project Screenshot, Introductions, etc.

@@ -1,91 +1,47 @@
-# NFT Tutorial - NFT Marketplace
+<div align=center> 
+<img src="https://avatars.githubusercontent.com/u/88427645?s=200&v=4" style="border-radius:10px">
+</div>
 
-Build an NFT marketplace from 0. How to compile, deploy, and call smart contract
+<center> Starter Kits 快速构建 DAPP </center>
 
-- [0. Project Introduction](#chapter-8)
+<center> An Polygon Starter Kit Tutorial containing React, @web3-react, Infura. </center>
+<div align=center> <a href="https://docs.matic.network/docs/develop/getting-started"> Developer Docs</a> - <a href="https://polygon-tutorial.solidstake.net/shelves/tutorial"> Tutorial </a></div>    
 
-- - [NFT Marketplace Introduction](#page-19)
-
-- [1. Environment Setup](#chapter-9)
-
-- - [Setup New Project using Starter Kit](#page-20)
-  - [Create Ganache Workspace、Setup turffle](#page-21)
-
-- [2. Code your Smart Contracts](#chapter-10)
-
-- - [NFT.sol](#page-22)
-  - [NFTMarket.sol](#page-23)
-
-- [3. Compile & Deploy Contract](#chapter-11)
-
-- - [Scripts for Compiling Smart Contract](#page-25)
-  - [Compile and Deploy Using truffle](#page-26)
-
-- [4. Calling Smart Contract from Frontend (ABI)](#chapter-12)
-
-- - [Call Contract ABI](#page-27)
-
-# 0. Project Introduction
-
-NFT Marketplace Project Screenshot, Introductions, etc.
-
-\0. Project Introduction
-
-# NFT Marketplace Introduction
-
-![img](https://avatars.githubusercontent.com/u/88427645?s=200&v=4)
-
-Using Starter Kits to build DAPP
-
-An Polygon Starter Kit Tutorial containing React, @web3-react, Infura.
-
-[Developer Docs](https://docs.matic.network/docs/develop/getting-started) - [Tutorial](https://polygon-tutorial.solidstake.net/shelves/tutorial)
 
 ## Metaverse Marketplace
-
 > Refer: https://github.com/dabit3/polygon-ethereum-nextjs-marketplace
 
-##### Screenshots：
+##### 项目截图：
+![create-nft](./docs/create-nft.png)
 
-<img src="https://polygon-tutorial.solidstake.net/uploads/images/gallery/2021-08/IsitvzraB04CaBxc-create-nft.png">
+![metaverse](./docs/metaverse.png)
 
-<img src="https://polygon-tutorial.solidstake.net/uploads/images/gallery/2021-08/XiWzeReRDuQIYki1-metaverse.png">
 
-##### URL：
-
+##### 项目地址：
 [Polygon-Academy nft-tutorial](https://github.com/Polygon-Academy/nft-tutorial.git)
 
-# 1. Environment Setup
-
-Setup ganache、truffle、infura、IPFS web3
-
-1. Environment Setup
-
-# Setup New Project using Starter Kit
-
+## 0. 使用 starter kit 创建项目
 ```javascripts
 npx create-react-app metaverse --template polygon-starter-kit
 cd metaverse
 npm run start 
 ```
 
-<img src="https://cdn.rawgit.com/facebook/create-react-app/27b42ac/screencast.svg">
+<img src="https://cdn.rawgit.com/facebook/create-react-app/27b42ac/screencast.svg" width="600" alt="npm start">
 
-1. Environment Setup
+#### 创建 Ganache Workspace
+![ganache](./docs/ganache-workshop.png)
 
-# Create Ganache Workspace、Setup turffle
+##### 设置
+指定 `workshop` 的 `turffle-config.js` 为上一步创建的 `metaverse/truffle-config.js`
 
-<img src="https://polygon-tutorial.solidstake.net/uploads/images/gallery/2021-08/MUhHFynBDJYosX0W-ganache-workshop.png">
+ 在 `SERVE`  中设置 `chainId = 1337`、`portNumber = 8545`
+ 
+ 
 
-##### Setting
+##### 创建`.env` , 配置 truffle
 
-Modify `turffle-config.js` in `workshop` as `metaverse/truffle-config.js`, which is created in the previous tutorial section.
-
-Set `chainId = 1337`、`portNumber = 8545` in `SERVE`.
-
-##### Create`.env` file , setup truffle
-
-Once you start the program, there will be a `eth` wallet address generated, export your private key
+启动后会生成设置 `eth` 钱包地址，导出私钥
 
 ```javascripts
 vim .env 
@@ -99,19 +55,12 @@ POLYGON_MUMBAI_RPC="https://rpc-mumbai.maticvigil.com"
 INFURA_ID= "{Your Infura ID}"
 ```
 
-> Infura ID is created at Infura.io, you will need to create your own Infura RPC on their website.
 
-# 2. Code your Smart Contracts
+## 1. 编写 smart contract 
 
-Code your NFT Marketplace Smart Contracts, Mainly compose of NFT Creation, Showcase, and Sell
+#### NFT ERC721 
 
-\2. Code your Smart Contracts
-
-# NFT.sol
-
-#### NFT ERC721
-
-Create `NFT.sol` under `src/contracts`
+在 `src/contracts` 目录下创建 `NFT.sol`
 
 ```javascripts
 // SPDX-License-Identifier: MIT OR Apache-2.0
@@ -121,23 +70,23 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-/* Create Contract NFT, inherits ERC721URIStorage, Generate ERC721 URI Storage */
+/* 创建合约 NFT， 继承 ERC721URIStorage，生成 ERC721 URI 存储器 */
 contract NFT is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     address contractAddress;
 
     constructor(address marketplaceAddress) ERC721("Metaverse", "METT") {
-    /* Construct the contract, initialize CreateAddress as marketplaceAddress */
+        /* 构造合约，初始化 CreateAddress 为 marketplaceAddress */
         contractAddress = marketplaceAddress;
     }
 
     function createToken(string memory tokenURI) public returns (uint) {
-    /* calls internal increment function, generate new tokenId as indexId */
+		/* 调用内部函数 increment ，生成新的 tokenId 作为 indexId */
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
 		
-    /* Mint NFT with current tokenId for contract caller, set tokenURI, and make it public */
+		/* 铸造当前 tokenId 给合约调用者，并设置 tokenURI , 以及可公开 */
         _mint(msg.sender, newItemId);
         _setTokenURI(newItemId, tokenURI);
         setApprovalForAll(contractAddress, true);
@@ -146,22 +95,18 @@ contract NFT is ERC721URIStorage {
 }
 ```
 
-##### Contract Call Process
+
+##### 合约调用过程
 
 ```bash
-1. Create Contract NFT, inherits ERC721URIStorage, Generate ERC721 URI Storage
-2. Construct the contract, initialize CreateAddress as marketplaceAddress
-3. calls internal increment function, generate new tokenId as indexId
-4. Mint NFT with current tokenId for contract caller, set tokenURI, and make it public
+1. 创建合约 NFT， 继承 ERC721URIStorage，生成 ERC721 URI 存储器
+2. 构造合约，初始化 CreateAddress 为 marketplaceAddress
+3. 调用内部函数 increment ，生成新的 tokenId 作为 indexId
+4. 铸造当前 tokenId 给合约调用者，并设置 tokenURI , 可公开
 ```
 
-\2. Code your Smart Contracts
+#### NFTMarket.sol
 
-# NFTMarket.sol
-
-##### NFT marketplace
-
-Create `NFTMarket.sol` under `src/contracts`
 
 ```javascripts
 // SPDX-License-Identifier: MIT OR Apache-2.0
@@ -184,14 +129,14 @@ contract NFTMarket is ReentrancyGuard {
         owner = payable(msg.sender);
     }
 
-    /*  
-    Definitions MarketItem
+    /*  
+    定义 MarketItem
     @param: itemId 
-    @param: ntfContract NFT ERC721 URI Storage deployed on ERC721URIStorage
-    @param: seller  Address of Seller
-    @param: owner Address of Owner
-    @param: price Price of the item
-    @param: sold  Sold or not, boolean
+    @param: ntfContract ERC721URIStorage 上面部署的 NFT ERC721 URI 存储器
+    @param: seller  提供售卖的用户地址
+    @param: owner 当前拥有者地址　
+    @param: price 售卖价格
+    @param: sold  是否卖出 
     */
     struct MarketItem {
         uint itemId;
@@ -205,7 +150,7 @@ contract NFTMarket is ReentrancyGuard {
 
     mapping(uint256 => MarketItem) private idToMarketItem;
     
-     /* Listing NFT to the Marketplace */
+     /* 放置 NFT 至 Market 进行售卖 */
     function createMarketItem(
         address nftContract,
         uint256 tokenId,
@@ -213,16 +158,16 @@ contract NFTMarket is ReentrancyGuard {
     ) public payable nonReentrant { 
     
     	  
-    	 /* Check if listingPrice is provided, this revenue will go to Marketplace Owner*/
+    	  /* 判断是否提供展示费用 listingPrice，将由 Market Owner Claim */
         require(price > 0, "Price must be at least 1 wei");
         require(msg.value == listingPrice, "Price must be equal to listing price");
 
-	  	/* create new itermId，tokenId */
+	  /* 创建新的 itermId，tokenId */
         _itemIds.increment();
         uint256 itemId = _itemIds.current();
 
 
-	 	/* fill in MarkItem information, and set the NFT URI, seller address, price */
+	 /* 存入 MarkItem, 并设置当前 NFT URI, seller，price */
         idToMarketItem[itemId] =  MarketItem(
         itemId,
         nftContract,
@@ -233,7 +178,7 @@ contract NFTMarket is ReentrancyGuard {
         false
         );
 
-		/* change the NFT ownership from owner to MarketAddress */
+	/* 将当前 NFT  所有权 owner 转移到 MarketAddress */
         IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
 
         emit MarketItemCreated(
@@ -248,59 +193,61 @@ contract NFTMarket is ReentrancyGuard {
     }
 
 
-	/* sellContract　createMarketSale */
+	/* 销售合约　createMarketSale */
     function createMarketSale(
         address nftContract,
         uint256 itemId
     ) public payable nonReentrant {
-     	/* check if buyer has provided paied enough balance */
+     /* 判断 买方 是否提供当前 price */
         uint price = idToMarketItem[itemId].price;
         uint tokenId = idToMarketItem[itemId].tokenId;
         require(msg.value == price, "Please submit the asking price in order to complete the purchase");
 
-		/* Transfer sold value to seller */
+	/* 将销售金额转移给 seller */
         idToMarketItem[itemId].seller.transfer(msg.value);
         
-       	/* Transfer token to new owner *.
+       /* 转移 token 为新的 owner *.
         IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
         idToMarketItem[itemId].owner = payable(msg.sender);
         idToMarketItem[itemId].sold = true;
         _itemsSold.increment();
         
-        /* Transfer Listing Fee to MarketPlace Owner */
+        /* 展示费用转移到 MarketContactAddress 拥有者 　*/
         payable(owner).transfer(listingPrice);
     }
 ```
 
-##### Contract Call Process
-
+##### 合约调用过程
 ```bash
-1. Create Contract, Set Contract owner as listingPrice receiver
+1. 构造合约，设置合约 owner 为 listingPrice 的收益人
 
-2. Listing Contract ： 
-	① Check if seller has provided listingPrice
-	② Create new itermId，tokenId
-	③ fill in MarkItem information, and set the NFT URI, seller address, price
-	④ change the NFT ownership from owner to MarketAddress
+2. 展示合约 ： 
+	① 判断 seller 是否提供了 listingPrice
+	② 创建新的 itermId，tokenId
+	③ 存入 MarkItem, 并设置当前 NFT URI, seller，price
+	④ 将当前 NFT  所有权 owner 转移到 MarketAddress
 	
-3. Sell Contract :
-	① check if buyer has provided paied enough balance
-	② Transfer sold value to seller
-	③ Transfer token to new owner
-	④ Transfer Listing Fee to MarketPlace Owner
+3. 售卖合约 :
+	① 判断 买方 是否提供了当前 NFT 的 price
+	② 将 销售金额 转移给 seller
+	③ 转移 token 为新的 owner
+	④ 将 listingPrice 转移给 MarketAddress owner
+
 ```
 
-# 3. Compile & Deploy Contract
 
-Compile & Deploy Smart Contract using truffle
 
-\3. Compile & Deploy Contract
+> Solidity、Openzeppelin 相关学习资料
+>
+> [Solidity 0.8.0 中文文档 - 登链社区](https://learnblockchain.cn/docs/solidity/)  
+> 
+> [Openzeppelin Contract Docs](https://docs.openzeppelin.com/contracts/4.x/)
 
-# Scripts for Compiling Smart Contract
 
-##### Compile Smart Contract （Smart Contract）
+## 2. 编译、部署智能合约
+##### 编译智能合约（Smart Contract）
 
-Compile contracts under `migrations` folder
+在 `migrations` 下编写部署脚本
 
 ```javascripts
 # 2_deploy_contract.js 
@@ -320,8 +267,8 @@ module.exports = async function (deployer, network, accounts) {
   const nft = await NFT.deployed();
 
   let config = `
-	export const nftmarketaddress = "${nftMarket.address}"
-	export const nftaddress = "${nft.address}"
+export const nftmarketaddress = "${nftMarket.address}"
+export const nftaddress = "${nft.address}"
   `;
 
   let data = JSON.stringify(config);
@@ -330,21 +277,19 @@ module.exports = async function (deployer, network, accounts) {
 };
 ```
 
-\3. Compile & Deploy Contract
+##### 编译部署智能合约 （Smart Contract）
+使用 `turffle` 进行编译部署   
 
-# Compile and Deploy Using truffle
-
-Use `turffle` to Compile
-
-```bash
+```bash 
 truffle migrate --network development --reset 
-```
+``` 
 
-> --network  to set network as development
->
-> --reset Recompile and redeploy will change the original smart contract address
+> --network  指定部署网络为 development   
+> 
+> --reset  是否重新编译、部署、会改变原有网络上的部署合约地址
 
-Outputs：
+
+输出为：
 
 ```bash
 Compiling your contracts...
@@ -428,31 +373,24 @@ Summary
 =======
 > Total deployments:   3
 > Final cost:          0.08518996 ETH
+
 ```
 
-# 4. Calling Smart Contract from Frontend (ABI)
-
-Examples of how to call Contract ABI using IPFS、ethers.js、@web3-react
-
-\4. Calling Smart Contract from Frontend (ABI)
-
-# Call Contract ABI
-
-##### Dependencies Requirements
+## 3. 前端调用合约 `ABI`
+##### 安装依赖 Requirements
 
 ```bash
 npm install ipfs-http-client ethers 
 ```
-
-or
+or 
 
 ```bash
 npm install 
 ```
 
-##### Upload `Image` to `IPFS`
+##### 上传 `Image` 至 `IPFS`
 
-```javascripts
+``` javascripts
 import { create as ipfsHttpClient } from 'ipfs-http-client'
 
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0');
@@ -473,8 +411,7 @@ async function onChange(e) {
     }
   }
 ```
-
-##### Listing NFT
+##### 售卖展示 NFT
 
 ```javascripts
 import {useWeb3React} from '@web3-react/core'
@@ -507,8 +444,7 @@ async function createSale(url) {
   }
 ```
 
-##### Purchase NFT
-
+##### 购买 NFT
 ```javascripts
 import {useWeb3React} from '@web3-react/core'
 
@@ -528,4 +464,6 @@ async function buyNft(nft) {
     }
   }
 ```
+
+
 

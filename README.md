@@ -50,13 +50,13 @@ npm run start
 
 1. Environment Setup
 
-# Create Ganache Workspace、Setup turffle
+# Create Ganache Workspace、Setup truffle
 
 <img src="https://polygon-tutorial.solidstake.net/uploads/images/gallery/2021-08/MUhHFynBDJYosX0W-ganache-workshop.png">
 
 ##### Setting
 
-Modify `turffle-config.js` in `workshop` as `metaverse/truffle-config.js`, which is created in the previous tutorial section.
+Modify `truffle-config.js` in `workshop` as `metaverse/truffle-config.js`, which is created in the previous tutorial section.
 
 Set `chainId = 1337`、`portNumber = 8545` in `SERVE`.
 

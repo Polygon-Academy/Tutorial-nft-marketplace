@@ -40,7 +40,7 @@ Setup ganache、truffle、infura、IPFS web3
 
 # Setup New Project using Starter Kit
 
-```javascripts
+```
 npx create-react-app metaverse --template polygon-starter-kit
 cd metaverse
 npm run start 
@@ -64,7 +64,7 @@ Set `chainId = 1337`、`portNumber = 8545` in `SERVE`.
 
 Once you start the program, there will be a `eth` wallet address generated, export your private key
 
-```javascripts
+```
 vim .env 
 
 # truffle-config
@@ -90,7 +90,7 @@ Code your NFT Marketplace Smart Contracts, Mainly compose of NFT Creation, Showc
 
 Create `NFT.sol` under `src/contracts`
 
-```javascripts
+```solidity
 // SPDX-License-Identifier: MIT OR Apache-2.0
 pragma solidity ^0.8.3;
 
@@ -125,7 +125,7 @@ contract NFT is ERC721URIStorage {
 
 ##### Contract Call Process
 
-```bash
+```
 1. Create Contract NFT, inherits ERC721URIStorage, Generate ERC721 URI Storage
 2. Construct the contract, initialize CreateAddress as marketplaceAddress
 3. calls internal increment function, generate new tokenId as indexId
@@ -140,7 +140,7 @@ contract NFT is ERC721URIStorage {
 
 Create `NFTMarket.sol` under `src/contracts`
 
-```javascripts
+```solidity
 // SPDX-License-Identifier: MIT OR Apache-2.0
 pragma solidity ^0.8.3;
 
@@ -251,7 +251,7 @@ contract NFTMarket is ReentrancyGuard {
 
 ##### Contract Call Process
 
-```bash
+```
 1. Create Contract, Set Contract owner as listingPrice receiver
 
 2. Listing Contract ： 
@@ -279,7 +279,7 @@ Compile & Deploy Smart Contract using truffle
 
 Compile contracts under `migrations` folder
 
-```javascripts
+```javascript
 # 2_deploy_contract.js 
 
 const fs = require('fs');
@@ -311,7 +311,7 @@ module.exports = async function (deployer, network, accounts) {
 
 # Compile and Deploy Using truffle
 
-Use `turffle` to Compile
+Use `truffle` to Compile
 
 ```bash
 truffle migrate --network development --reset 
@@ -429,7 +429,7 @@ npm install
 
 ##### Upload `Image` to `IPFS`
 
-```javascripts
+```javascript
 import { create as ipfsHttpClient } from 'ipfs-http-client'
 
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0');
@@ -453,7 +453,7 @@ async function onChange(e) {
 
 ##### Listing NFT
 
-```javascripts
+```javascript
 import {useWeb3React} from '@web3-react/core'
 
 const {library, account} = useWeb3React();
@@ -486,7 +486,7 @@ async function createSale(url) {
 
 ##### Purchase NFT
 
-```javascripts
+```javascript
 import {useWeb3React} from '@web3-react/core'
 
 const {library, account} = useWeb3React();

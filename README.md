@@ -429,7 +429,7 @@ npm install
 
 ##### Upload `Image` to `IPFS`
 
-Get IPFS infura credentials (here)[https://infura.io/]. Remeber to create a DEDICATED GATEWAY SUBDOMAIN to get uploaded files.
+Get IPFS infura credentials [here](https://infura.io/). Remeber to create a DEDICATED GATEWAY SUBDOMAIN to get uploaded files.
 
 ```javascripts
 import { create } from 'ipfs-http-client';

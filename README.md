@@ -429,10 +429,22 @@ npm install
 
 ##### Upload `Image` to `IPFS`
 
-```javascripts
-import { create as ipfsHttpClient } from 'ipfs-http-client'
+Get IPFS infura credentials (here)[https://infura.io/]. Remeber to create a DEDICATED GATEWAY SUBDOMAIN to get uploaded files.
 
-const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0');
+```javascripts
+import { create } from 'ipfs-http-client';
+
+const auth =
+    'Basic ' + Buffer.from(INFURA_IPFS_ID + ':' + INFURA_IPFS_SECRET).toString('base64');
+
+const client = create({
+    host: 'ipfs.infura.io',
+    port: 5001,
+    protocol: 'https',
+    headers: {
+      authorization: auth,
+    },
+  });
 
 async function onChange(e) {
     const file = e.target.files[0];
@@ -443,7 +455,7 @@ async function onChange(e) {
         progress: (prog) => console.log(`received: ${prog}`)
       }
       );
-      const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+      const url = `YOUR_DEDICATED_DOMAIN/ipfs/${added.path}`;
       setFileUrl(url)
     } catch (error) {
       console.log('Error uploading file: ', error)

@@ -1,6 +1,6 @@
 import React from 'react'
 import { ethers } from 'ethers'
-import { create as ipfsHttpClient } from 'ipfs-http-client'
+import { create } from 'ipfs-http-client';
 import { Button, Form, Header, Image, Input, Modal } from 'semantic-ui-react'
 
 import './nft.css'
@@ -9,7 +9,17 @@ import NFTMarket from '../../abis/NFTMarket'
 import { useWeb3React } from '@web3-react/core'
 import { nftaddress, nftmarketaddress } from '../../config'
 
-const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0');
+const auth =
+    'Basic ' + Buffer.from(INFURA_IPFS_ID + ':' + INFURA_IPFS_SECRET).toString('base64');
+
+const client = create({
+  host: 'ipfs.infura.io',
+  port: 5001,
+  protocol: 'https',
+  headers: {
+    authorization: auth,
+  },
+});
 
 
 const FormNoFile = {
@@ -43,7 +53,7 @@ export default function NFTDAppIndex() {
         progress: (prog) => console.log(`received: ${prog}`)
       }
       );
-      const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+      const url = `{YOUR_DEDICATED_DOMAIN}/ipfs/${added.path}`;
       setFileUrl(url)
     } catch (error) {
       console.log('Error uploading file: ', error)

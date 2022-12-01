@@ -14,7 +14,7 @@ NFT Marketplace Project Screenshot, Introductions, etc.
 
 Using Starter Kits to build DAPP
 
-An Polygon Starter Kit Tutorial containing React, @web3-react, Infura.
+An Polygon Starter Kit Tutorial containing React, @web3-react, Infura or other RPC endpoint providers like Alchemy, Quicknode, and Moralis
 
 [Developer Docs](https://docs.matic.network/docs/develop/getting-started) - [Tutorial](https://polygon-tutorial.solidstake.net/shelves/tutorial)
 
@@ -76,7 +76,7 @@ POLYGON_MUMBAI_RPC="https://rpc-mumbai.maticvigil.com"
 INFURA_ID= "{Your Infura ID}"
 ```
 
-> Infura ID is created at Infura.io, you will need to create your own Infura RPC on their website.
+> Infura ID is created at Infura.io, you will need to create your own Infura RPC on their website. You can also use free Polygon RPC endpoints from development platforms like [Alchemy](https://docs.alchemy.com/reference/polygon-api-quickstart), [Quicknode](https://quicknode.com), or [Moralis](https://moralis.io)
 
 # 2. Code your Smart Contracts
 
